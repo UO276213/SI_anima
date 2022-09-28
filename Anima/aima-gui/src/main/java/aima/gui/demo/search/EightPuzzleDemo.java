@@ -26,20 +26,20 @@ public class EightPuzzleDemo {
 			new EightPuzzleBoard(new int[] { 1, 2, 5, 3, 4, 0, 6, 7, 8 });
 
 	private static EightPuzzleBoard random1 =
-			new EightPuzzleBoard(new int[] { 1, 4, 2, 7, 5, 8, 3, 0, 6 });
+			new EightPuzzleBoard(new int[] { 1, 2, 3, 8, 0, 4, 7, 6, 5 });
 
 //	private static EightPuzzleBoard extreme =
 //			new EightPuzzleBoard(new int[] { 0, 8, 7, 6, 5, 4, 3, 2, 1 });
 
 	public static void main(String[] args) {
 		System.out.println("Initial State:\n" + boardWithThreeMoveSolution);
-		eightPuzzleDLSDemo();
-		eightPuzzleIDLSDemo();
-		eightPuzzleGreedyBestFirstDemo();
-		eightPuzzleGreedyBestFirstManhattanDemo();
+//		eightPuzzleDLSDemo();
+//		eightPuzzleIDLSDemo();
+//		eightPuzzleGreedyBestFirstDemo();
+//		eightPuzzleGreedyBestFirstManhattanDemo();
 		eightPuzzleAStarDemo();
-		eightPuzzleAStarManhattanDemo();
-		eightPuzzleSimulatedAnnealingDemo();
+//		eightPuzzleAStarManhattanDemo();
+//		eightPuzzleSimulatedAnnealingDemo();
 	}
 
 	private static void eightPuzzleDLSDemo() {
