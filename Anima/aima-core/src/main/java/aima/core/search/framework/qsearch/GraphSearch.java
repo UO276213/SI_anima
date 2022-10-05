@@ -44,6 +44,8 @@ import aima.core.search.framework.problem.Problem;
  */
 public class GraphSearch<S, A> extends TreeSearch<S, A> {
 
+	private Set<S> explored = new HashSet<>();
+	private Set<S> expanded = new HashSet<>();
 	private Map<S, Node<S, A>> reached = new HashMap<>();
 
 	public GraphSearch() {
@@ -62,6 +64,7 @@ public class GraphSearch<S, A> extends TreeSearch<S, A> {
 	public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier) {
 		// initialize the explored set to be empty
 		reached.clear();
+		expanded.clear();
 		return super.findNode(problem, frontier);
 	}
 
@@ -73,9 +76,13 @@ public class GraphSearch<S, A> extends TreeSearch<S, A> {
 	protected void addToFrontier(Node<S, A> node) {
 
 		if (!reached.containsKey(node.getState()) || node.getPathCost() < reached.get(node.getState()).getPathCost()){
-			reached.put(node.getState(), node);
 			frontier.add(node);
+			if (expanded.contains(node.getState()))
+				metrics.incrementInt(METRIC_NODES_EXPANDED_REINSERTED_IN_FRONTIER);
+			else if (reached.containsKey(node.getState()))
+				metrics.incrementInt(METRIC_NODES_DUPLICATED_IN_FRONTIER);
 			updateMetrics(frontier.size());
+			reached.put(node.getState(), node);
 		}
 	}
 
@@ -91,6 +98,7 @@ public class GraphSearch<S, A> extends TreeSearch<S, A> {
 	protected Node<S, A> removeFromFrontier() {
 		cleanUpFrontier(); // not really necessary because isFrontierEmpty should be called before...
 		Node<S, A> result = frontier.remove();
+		expanded.add(result.getState());
 //		reached.add(result.getState());
 		updateMetrics(frontier.size());
 		return result;
