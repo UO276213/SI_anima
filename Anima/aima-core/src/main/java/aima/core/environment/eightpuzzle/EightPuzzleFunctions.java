@@ -57,4 +57,15 @@ public class EightPuzzleFunctions {
 				result++;
 		return result;
 	}
+
+	public static double stepCostFunction(EightPuzzleBoard state, Action action, EightPuzzleBoard sucState) {
+		double val = 0;
+		XYLocation location = state.getLocationOf(0);
+		if(action == EightPuzzleBoard.UP) val = state.getValueAt(new XYLocation(location.getX(), location.getY() - 1));
+		else if(action == EightPuzzleBoard.DOWN) val = state.getValueAt(new XYLocation(location.getX(), location.getY() + 1));
+		else if(action == EightPuzzleBoard.LEFT) val = state.getValueAt(new XYLocation(location.getX() - 1, location.getY()));
+		else if(action == EightPuzzleBoard.RIGHT) val = state.getValueAt(new XYLocation(location.getX() + 1, location.getY()));
+
+		return Math.pow(val, val);
+	}
 }
