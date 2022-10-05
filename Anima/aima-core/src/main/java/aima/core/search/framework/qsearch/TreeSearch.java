@@ -63,6 +63,10 @@ public class TreeSearch<S, A> extends QueueSearch<S, A> {
 	 */
 	@Override
 	public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier) {
+		long startTime = System.currentTimeMillis();
+		long endTime = 0;
+		long totalTime = 0;
+
 		this.frontier = frontier;
 		clearMetrics();
 		// initialize the frontier using the initial state of the problem
@@ -77,16 +81,27 @@ public class TreeSearch<S, A> extends QueueSearch<S, A> {
 			if(evalFn != null)
 				System.out.println("f:" + evalFn.applyAsDouble(node));
 			// if the node contains a goal state then return the corresponding solution
-			if (!earlyGoalTest && problem.testSolution(node))
+			if (!earlyGoalTest && problem.testSolution(node)) {
+				endTime = System.currentTimeMillis();
+				totalTime = endTime - startTime;
+				metrics.set(METRIC_TIME_TAKEN, totalTime);
 				return asOptional(node);
+			}
 
 			// expand the chosen node and add the successor nodes to the frontier
 			for (Node<S, A> successor : nodeFactory.getSuccessors(node, problem)) {
 				addToFrontier(successor);
-				if (earlyGoalTest && problem.testSolution(successor))
+				if (earlyGoalTest && problem.testSolution(successor)){
+					endTime = System.currentTimeMillis();
+					totalTime = endTime - startTime;
+					metrics.set(METRIC_TIME_TAKEN, totalTime);
 					return asOptional(successor);
+				}
 			}
 		}
+		endTime = System.currentTimeMillis();
+		totalTime = endTime - startTime;
+		metrics.set(METRIC_TIME_TAKEN, totalTime);
 		// if the frontier is empty then return failure
 		return Optional.empty();
 	}

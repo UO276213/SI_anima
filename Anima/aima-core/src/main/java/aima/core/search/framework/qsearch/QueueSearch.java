@@ -32,6 +32,7 @@ public abstract class QueueSearch<S, A> {
 	public static final String METRIC_NODES_EXPANDED_REINSERTED_IN_FRONTIER = "nodesReinsertedInFrontier";
 
 	public static final String METRIC_NODES_DUPLICATED_IN_FRONTIER = "nodesDuplicatedInFrontier";
+	public static final String METRIC_TIME_TAKEN = "timeTaken";
 
 	final protected NodeFactory<S, A> nodeFactory;
 	protected boolean earlyGoalTest = false;
@@ -90,6 +91,7 @@ public abstract class QueueSearch<S, A> {
 		metrics.set(METRIC_PATH_COST, 0);
 		metrics.set(METRIC_NODES_EXPANDED_REINSERTED_IN_FRONTIER, 0);
 		metrics.set(METRIC_NODES_DUPLICATED_IN_FRONTIER, 0);
+		metrics.set(METRIC_TIME_TAKEN, 0);
 	}
 
 	protected void updateMetrics(int queueSize) {
