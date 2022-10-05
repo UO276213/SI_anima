@@ -28,17 +28,17 @@ public abstract class QueueSearch<S, A> {
 	public static final String METRIC_QUEUE_SIZE = "queueSize";
 	public static final String METRIC_MAX_QUEUE_SIZE = "maxQueueSize";
 	public static final String METRIC_PATH_COST = "pathCost";
-
+	
 	public static final String METRIC_NODES_EXPANDED_REINSERTED_IN_FRONTIER = "nodesReinsertedInFrontier";
-
 	public static final String METRIC_NODES_DUPLICATED_IN_FRONTIER = "nodesDuplicatedInFrontier";
 	public static final String METRIC_TIME_TAKEN = "timeTaken";
 
 	final protected NodeFactory<S, A> nodeFactory;
 	protected boolean earlyGoalTest = false;
 	protected Metrics metrics = new Metrics();
-
-	public EvaluationFunction<S, A> evalFn;
+	
+	public EvaluationFunction<S, A> evalFn; 
+	
 
 	/** Stores the provided node expander and adds a node listener to it. */
 	protected QueueSearch(NodeFactory<S, A> nodeFactory) {

@@ -63,12 +63,9 @@ public class TreeSearch<S, A> extends QueueSearch<S, A> {
 	 */
 	@Override
 	public Optional<Node<S, A>> findNode(Problem<S, A> problem, Queue<Node<S, A>> frontier) {
-		long startTime = System.currentTimeMillis();
-		long endTime = 0;
-		long totalTime = 0;
-
 		this.frontier = frontier;
 		clearMetrics();
+		long before = System.currentTimeMillis(); 
 		// initialize the frontier using the initial state of the problem
 		Node<S, A> root = nodeFactory.createNode(problem.getInitialState());
 		addToFrontier(root);
@@ -78,31 +75,32 @@ public class TreeSearch<S, A> extends QueueSearch<S, A> {
 		while (!isFrontierEmpty() && !Tasks.currIsCancelled()) {
 			// choose a leaf node and remove it from the frontier
 			Node<S, A> node = removeFromFrontier();
-			if(evalFn != null)
+			
+			if (evalFn != null)
 				System.out.println("f:" + evalFn.applyAsDouble(node));
+					
 			// if the node contains a goal state then return the corresponding solution
 			if (!earlyGoalTest && problem.testSolution(node)) {
-				endTime = System.currentTimeMillis();
-				totalTime = endTime - startTime;
-				metrics.set(METRIC_TIME_TAKEN, totalTime);
+				long after = System.currentTimeMillis(); 
+				// para monitorizar el tiempo de ejecucion
+				metrics.set(METRIC_TIME_TAKEN,after - before);
 				return asOptional(node);
 			}
-
 			// expand the chosen node and add the successor nodes to the frontier
 			for (Node<S, A> successor : nodeFactory.getSuccessors(node, problem)) {
 				addToFrontier(successor);
-				if (earlyGoalTest && problem.testSolution(successor)){
-					endTime = System.currentTimeMillis();
-					totalTime = endTime - startTime;
-					metrics.set(METRIC_TIME_TAKEN, totalTime);
+				if (earlyGoalTest && problem.testSolution(successor)) {
+					long after = System.currentTimeMillis(); 
+					// para monitorizar el tiempo de ejecucion
+					metrics.set(METRIC_TIME_TAKEN,after - before);
 					return asOptional(successor);
 				}
 			}
 		}
-		endTime = System.currentTimeMillis();
-		totalTime = endTime - startTime;
-		metrics.set(METRIC_TIME_TAKEN, totalTime);
 		// if the frontier is empty then return failure
+		long after = System.currentTimeMillis(); 
+		// para monitorizar el tiempo de ejecucion
+		metrics.set(METRIC_TIME_TAKEN,after - before);
 		return Optional.empty();
 	}
 
