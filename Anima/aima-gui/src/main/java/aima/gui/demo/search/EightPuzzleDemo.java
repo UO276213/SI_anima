@@ -104,8 +104,8 @@ public class EightPuzzleDemo {
 //		eightPuzzleIDLSDemo();
 //		eightPuzzleGreedyBestFirstDemo();
 //		eightPuzzleGreedyBestFirstManhattanDemo();
-		eightPuzzleAStarDemo();
-//		eightPuzzleAStarManhattanDemo();
+//		eightPuzzleAStarDemo();
+		eightPuzzleAStarManhattanDemo();
 //		eightPuzzleSimulatedAnnealingDemo();
 	}
 

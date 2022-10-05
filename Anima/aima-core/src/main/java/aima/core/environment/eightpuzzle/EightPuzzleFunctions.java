@@ -49,15 +49,6 @@ public class EightPuzzleFunctions {
 		return result;
 	}
 
-	public static int getNumberOfMisplacedTiles(Node<EightPuzzleBoard, Action> node) {
-		EightPuzzleBoard currState = node.getState();
-		int result = 0;
-		for (int val = 1; val <= 8; val++)
-			if (!(currState.getLocationOf(val).equals(GOAL_STATE.getLocationOf(val))))
-				result++;
-		return result;
-	}
-
 	public static double stepCostFunction(EightPuzzleBoard state, Action action, EightPuzzleBoard sucState) {
 		double val = 0;
 		XYLocation location = state.getLocationOf(0);
@@ -67,5 +58,30 @@ public class EightPuzzleFunctions {
 		else if(action == EightPuzzleBoard.RIGHT) val = state.getValueAt(new XYLocation(location.getX() + 1, location.getY()));
 
 		return Math.pow(val, val);
+	}
+
+	// h0
+	public static int nullHeuristic(Node<EightPuzzleBoard, Action> node) {
+		return 0;
+	}
+
+	// h1
+	public static int getNumberOfMisplacedTiles(Node<EightPuzzleBoard, Action> node) {
+		EightPuzzleBoard currState = node.getState();
+		int result = 0;
+		for (int val = 1; val <= 8; val++)
+			if (!(currState.getLocationOf(val).equals(GOAL_STATE.getLocationOf(val))))
+				result++;
+		return result;
+	}
+
+	// h2
+	public static int getWeigthedNumberOfMisplacedTiles(Node<EightPuzzleBoard, Action> node) {
+		EightPuzzleBoard currState = node.getState();
+		int result = 0;
+		for (int val = 1; val <= 8; val++)
+			if (!(currState.getLocationOf(val).equals(GOAL_STATE.getLocationOf(val))))
+				result+=Math.pow(val, val);
+		return result;
 	}
 }
