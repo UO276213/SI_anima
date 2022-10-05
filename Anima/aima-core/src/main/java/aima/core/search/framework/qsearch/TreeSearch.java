@@ -75,15 +75,18 @@ public class TreeSearch<S, A> extends QueueSearch<S, A> {
 		while (!isFrontierEmpty() && !Tasks.currIsCancelled()) {
 			// choose a leaf node and remove it from the frontier
 			Node<S, A> node = removeFromFrontier();
-			
-			if (evalFn != null)
+
+			System.out.print("g-value: " + node.getPathCost() + " ");
+			if (evalFn != null) {
 				System.out.println("f:" + evalFn.applyAsDouble(node));
-					
+			}
+
 			// if the node contains a goal state then return the corresponding solution
 			if (!earlyGoalTest && problem.testSolution(node)) {
 				long after = System.currentTimeMillis(); 
 				// para monitorizar el tiempo de ejecucion
 				metrics.set(METRIC_TIME_TAKEN,after - before);
+				System.out.print(node.getState());
 				return asOptional(node);
 			}
 			// expand the chosen node and add the successor nodes to the frontier

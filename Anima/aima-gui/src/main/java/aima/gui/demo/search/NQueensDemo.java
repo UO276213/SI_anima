@@ -29,23 +29,40 @@ import java.util.function.Predicate;
 
 public class NQueensDemo {
 
-	private static final int boardSize = 8;
+	private static final int boardSize = 6;
 
 	public static void main(String[] args) {
 		startNQueensDemo();
 	}
 
 	private static void startNQueensDemo() {
-		solveNQueensWithDepthFirstSearch();
-		solveNQueensWithBreadthFirstSearch();
+//		solveNQueensWithDepthFirstSearch();
+//		solveNQueensWithBreadthFirstSearch();
 		solveNQueensWithAStarSearch();
-		solveNQueensWithAStarSearch4e();
-		solveNQueensWithRecursiveDLS();
-		solveNQueensWithIterativeDeepeningSearch();
-		solveNQueensWithSimulatedAnnealingSearch();
-		solveNQueensWithHillClimbingSearch();
-		solveNQueensWithGeneticAlgorithmSearch();
-		solveNQueensWithRandomWalk();
+//		solveNQueensWithAStarSearch4e();
+//		solveNQueensWithRecursiveDLS();
+//		solveNQueensWithIterativeDeepeningSearch();
+//		solveNQueensWithSimulatedAnnealingSearch();
+//		solveNQueensWithHillClimbingSearch();
+//		solveNQueensWithGeneticAlgorithmSearch();
+//		solveNQueensWithRandomWalk();
+	}
+
+	private static void solveNQueensWithAStarSearch() {
+		System.out.println("\n--- NQueensDemo A* (complete state formulation, graph search 3e) ---");
+
+		Problem<NQueensBoard, QueenAction> problem = NQueensFunctions.createCompleteStateFormulationProblem
+//				(boardSize, Config.QUEENS_IN_FIRST_ROW);
+		(boardSize, Config.QUEENS_IN_FIRST_ROW);
+		SearchForActions<NQueensBoard, QueenAction> search = new AStarSearch<>
+//				(new GraphSearch<>(), NQueensFunctions::getNullHeuristicEstimation);
+//				(new GraphSearch<>(), NQueensFunctions::getNumberOfAttackingPairs);
+				(new GraphSearch<>(), NQueensFunctions::getNumberOfAttackedQueens);
+//		(new GraphSearch<>(), NQueensFunctions::getMaximumNumberOfQueensAlignedMinusOne);
+		Optional<List<QueenAction>> actions = search.findActions(problem);
+
+		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
+		System.out.println(search.getMetrics());
 	}
 
 	private static void solveNQueensWithDepthFirstSearch() {
@@ -64,19 +81,6 @@ public class NQueensDemo {
 
 		Problem<NQueensBoard, QueenAction> problem = NQueensFunctions.createIncrementalFormulationProblem(boardSize);
 		SearchForActions<NQueensBoard, QueenAction> search = new BreadthFirstSearch<>(new GraphSearch<>());
-		Optional<List<QueenAction>> actions = search.findActions(problem);
-
-		actions.ifPresent(qActions -> qActions.forEach(System.out::println));
-		System.out.println(search.getMetrics());
-	}
-
-	private static void solveNQueensWithAStarSearch() {
-		System.out.println("\n--- NQueensDemo A* (complete state formulation, graph search 3e) ---");
-
-		Problem<NQueensBoard, QueenAction> problem = NQueensFunctions.createCompleteStateFormulationProblem
-				(boardSize, Config.QUEENS_IN_FIRST_ROW);
-		SearchForActions<NQueensBoard, QueenAction> search = new AStarSearch<>
-				(new GraphSearch<>(), NQueensFunctions::getNumberOfAttackingPairs);
 		Optional<List<QueenAction>> actions = search.findActions(problem);
 
 		actions.ifPresent(qActions -> qActions.forEach(System.out::println));

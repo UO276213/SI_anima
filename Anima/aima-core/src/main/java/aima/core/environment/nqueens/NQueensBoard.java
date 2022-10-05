@@ -252,4 +252,24 @@ public class NQueensBoard {
 		}
 		return builder.toString();
 	}
+
+	public int getNumberOfAttackedQueens() {
+		int result = 0;
+		for (int col = 0; col < getSize(); col++) {
+			for (int row = 0; row < getSize(); row++) {
+				if (queenExistsAt(col, row) && isSquareUnderAttack(new XYLocation(row, col)))
+					result++;
+			}
+		}
+
+		return result;
+	}
+
+//	public int getMaximumNumberOfQueensAligned(int x, int y) {
+//		int queensInRow = numberOfHorizontalAttacksOn(x, y);
+//		int queensInColumn = numberOfVerticalAttacksOn(x, y);
+//		int queensInDiagonal= numberOfDiagonalAttacksOn(x, y);
+//
+//		return Math.max(Math.max(queensInRow, queensInColumn), queensInDiagonal);
+//	}
 }

@@ -100,4 +100,19 @@ public class NQueensFunctions {
     public static double getNumberOfAttackingPairs(Node<NQueensBoard, QueenAction> node) {
         return node.getState().getNumberOfAttackingPairs();
     }
+
+    /*
+    Null Heuristic
+     */
+    public static <S, A> double getNullHeuristicEstimation(Node<NQueensBoard, QueenAction> node) {
+        return 0.0;
+    }
+
+    public static double getNumberOfAttackedQueens(Node<NQueensBoard, QueenAction> node) {
+        return node.getState().getNumberOfAttackedQueens();
+    }
+
+//    public static double getMaximumNumberOfQueensAlignedMinusOne(Node<NQueensBoard, QueenAction> node){
+//        return node.getState().getMaximumNumberOfQueensAligned(node.getAction().getX(), node.getAction().getY()) - 1;
+//    }
 }
